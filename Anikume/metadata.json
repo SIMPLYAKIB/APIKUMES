@@ -1,0 +1,8 @@
+{
+  "name": "uu",
+  "description": "Imported from GitHub: akibkawshara7/testj",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

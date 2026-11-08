@@ -1,0 +1,6 @@
+{
+  "summary":  "Revised implementation plan so Mobile always fetches 9 cards (?limit=9) and PC always fetches 15 cards (?limit=15) for Popular, This Season, and Top Rated without Mobile ever fetching 15.",
+  "updatedAt":  "2026-11-01T13:45:45.392713985Z",
+  "requestFeedback":  true,
+  "userFacing":  true
+}

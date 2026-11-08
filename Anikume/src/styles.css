@@ -1,0 +1,774 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+media-player,
+media-provider,
+media-player video,
+.vds-video,
+.vds-poster {
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-brand: var(--brand);
+  --color-brand-2: var(--brand-2);
+  --color-hot: var(--hot);
+  --color-success: var(--success);
+  --color-info: var(--info);
+  --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+  --radius: 0.75rem;
+
+  --background: oklch(0.14 0 0);
+  --foreground: oklch(0.98 0 0);
+
+  --card: oklch(0.18 0.005 280);
+  --card-foreground: oklch(0.98 0 0);
+  --popover: oklch(0.18 0.005 280);
+  --popover-foreground: oklch(0.98 0 0);
+
+  --primary: #f27822;
+  --primary-foreground: oklch(0.14 0 0);
+
+  --secondary: oklch(0.24 0.01 60);
+  --secondary-foreground: oklch(0.98 0 0);
+  --muted: oklch(0.22 0.005 60);
+  --muted-foreground: oklch(0.68 0.01 60);
+  --accent: oklch(0.26 0.01 60);
+  --accent-foreground: oklch(0.98 0 0);
+  --destructive: oklch(0.65 0.22 27);
+  --destructive-foreground: oklch(0.98 0 0);
+
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: rgba(242, 120, 34, 0.6);
+
+  /* brand — vibrant orange (a little brighter) */
+  --brand: #f27822;
+  --brand-2: #fa822e;
+  --hot: #f27822;
+  --success: oklch(0.72 0.18 150);
+  --info: oklch(0.74 0.15 230);
+
+  --gradient-brand: linear-gradient(90deg, var(--brand) 0%, var(--brand-2) 100%);
+  --shadow-card: 0 8px 24px -12px oklch(0 0 0 / 0.6);
+  --shadow-glow: 0 0 40px -12px rgba(242, 120, 34, 0.45);
+
+  /* Page gutter — same on left and right, applied to every section. */
+  --gutter: 1rem;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --gutter: 1.5rem;
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    overflow-x: clip;
+    width: 100%;
+    max-width: 100%;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none;
+    width: 0 !important;
+    height: 0 !important;
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    touch-action: manipulation;
+    overflow-x: clip;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  #root {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+  a,
+  button,
+  [role="button"],
+  input,
+  select {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Unified 60fps Smooth Tap Pop-In & Pop-Out Animation */
+a,
+button,
+[role="button"] {
+  --tap-scale: 0.93;
+  scale: 1;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transition-property:
+    color, background-color, border-color, text-decoration-color, fill, stroke, opacity,
+    box-shadow, transform, translate, scale, width, height !important;
+  transition-duration: 220ms !important;
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+button.hero-indicator-dot,
+.hero-indicator-dot {
+  scale: 1 !important;
+  transform: none !important;
+  outline: none !important;
+  border: none !important;
+  padding: 0 !important;
+  flex-shrink: 0 !important;
+  transition-property: width, background-color, opacity !important;
+  transition-duration: 300ms !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+  will-change: width, background-color;
+}
+
+button.hero-indicator-dot:active,
+.hero-indicator-dot:active {
+  scale: 1 !important;
+  transform: none !important;
+  transition-duration: 300ms !important;
+}
+
+/* Glass blur utility fallback */
+.gpu-glass-blur {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.active\:scale-90 {
+  --tap-scale: 0.90;
+}
+
+.active\:scale-\[0\.98\] {
+  --tap-scale: 0.96;
+}
+
+a[data-tap-active="true"],
+button[data-tap-active="true"],
+[role="button"][data-tap-active="true"],
+a:active:not(:disabled),
+button:active:not(:disabled),
+[role="button"]:active:not([aria-disabled="true"]) {
+  scale: var(--tap-scale, 0.93) !important;
+  transition-duration: 160ms !important;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+@keyframes search-overlay-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes search-overlay-exit {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes search-box-enter {
+  from {
+    opacity: 0;
+    transform: scale3d(0.95, 0.95, 1);
+  }
+  to {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes search-box-exit {
+  from {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+  to {
+    opacity: 0;
+    transform: scale3d(0.95, 0.95, 1);
+  }
+}
+
+.search-enter {
+  animation: search-box-enter 160ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.search-exit {
+  animation: search-box-exit 140ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.search-overlay-enter {
+  animation: search-overlay-enter 160ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.search-overlay-exit {
+  animation: search-overlay-exit 140ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes profile-menu-enter {
+  from {
+    opacity: 0;
+    transform: scale3d(0.95, 0.95, 1);
+  }
+  to {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes profile-menu-exit {
+  from {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+  to {
+    opacity: 0;
+    transform: scale3d(0.95, 0.95, 1);
+  }
+}
+
+.profile-menu-enter {
+  transform-origin: top right;
+  animation: profile-menu-enter 160ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.profile-menu-exit {
+  transform-origin: top right;
+  animation: profile-menu-exit 140ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .hover\:-translate-y-1:hover,
+  .hover\:-translate-y-0\.5:hover {
+    translate: none !important;
+  }
+  .group:hover .group-hover\:scale-105 {
+    scale: 1 !important;
+  }
+  .group:hover .group-hover\:blur-sm {
+    filter: none !important;
+  }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility section-title {
+  font-weight: 700;
+  font-size: 1.125rem;
+  letter-spacing: -0.01em;
+}
+
+/* Responsive anime card width.
+   Mobile: 3 per row. Tablet: 4. Desktop home left col (60%): 4-5 cards fit
+   exactly without being clipped by the Top 10 box on the right. */
+.anime-card {
+  width: calc((100vw - (2 * var(--gutter)) - (2 * 0.75rem)) / 3);
+  max-width: 240px;
+  min-width: 0;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+@media (min-width: 640px) {
+  .anime-card {
+    width: calc((100vw - (2 * var(--gutter)) - (3 * 0.75rem)) / 4);
+  }
+}
+@media (min-width: 768px) {
+  .anime-card {
+    width: clamp(
+      130px,
+      calc(((min(100vw, 1500px) - (2 * var(--gutter)) - 1.5rem) * 0.65 - 3rem) / 5),
+      210px
+    );
+  }
+}
+@media (min-width: 1024px) {
+  /* Home left column = (container - gap) * 0.6, container = min(100vw, 1500px) - 2*gutter, gap = 2rem.
+     Then divide by 4 cards with 3 internal 1rem gaps. clamp keeps things sane on detail routes. */
+  .anime-card {
+    width: clamp(
+      150px,
+      calc(((min(100vw, 1500px) - (2 * var(--gutter)) - 2rem) * 0.6 - 3rem) / 4),
+      220px
+    );
+  }
+}
+
+/* Two-sided feather so off-screen cards fade out softly. */
+.row-feather {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 32px,
+    #000 calc(100% - 32px),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 32px,
+    #000 calc(100% - 32px),
+    transparent 100%
+  );
+}
+
+.row-feather-left {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 32px, #000 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 32px, #000 100%);
+}
+
+.row-feather-right {
+  -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 32px), transparent 100%);
+  mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 32px), transparent 100%);
+}
+
+/* Vertical two-sided feather so top/bottom scrolled content fades out softly. */
+.col-feather {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 28px,
+    #000 calc(100% - 28px),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 28px,
+    #000 calc(100% - 28px),
+    transparent 100%
+  );
+}
+
+.col-feather-top {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 28px, #000 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 28px, #000 100%);
+}
+
+.col-feather-bottom {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 28px), transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 28px), transparent 100%);
+}
+
+/* Slide-in transition for rows when chevrons are pressed (just smooth scroll already in JS). */
+@keyframes anikume-row-slide {
+  from {
+    transform: translateX(8px);
+    opacity: 0.6;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+.row-slide-pulse > * {
+  animation: anikume-row-slide 320ms ease-out;
+}
+
+@utility brand-text {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Native select tweak for dark theme. */
+select {
+  color-scheme: dark;
+}
+
+/* 3D Book Page Flip Animation */
+@keyframes book-page-flip-next {
+  0% {
+    transform: perspective(1200px) rotateY(-20deg) scale(0.96) translateX(30px);
+    opacity: 0.3;
+    box-shadow: -20px 0 30px rgba(0, 0, 0, 0.8);
+  }
+  100% {
+    transform: perspective(1200px) rotateY(0deg) scale(1) translateX(0);
+    opacity: 1;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+
+@keyframes book-page-flip-prev {
+  0% {
+    transform: perspective(1200px) rotateY(20deg) scale(0.96) translateX(-30px);
+    opacity: 0.3;
+    box-shadow: 20px 0 30px rgba(0, 0, 0, 0.8);
+  }
+  100% {
+    transform: perspective(1200px) rotateY(0deg) scale(1) translateX(0);
+    opacity: 1;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+
+.animate-book-flip-next {
+  animation: book-page-flip-next 400ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: left center;
+}
+
+.animate-book-flip-prev {
+  animation: book-page-flip-prev 400ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: right center;
+}
+
+@keyframes circular-fill {
+  from {
+    stroke-dashoffset: 283;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+body {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+img {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  transition:
+    opacity 450ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 300ms ease-in-out,
+    filter 300ms ease-in-out;
+}
+
+img:not([data-img-loaded="true"]):not([data-permanent-logo="true"]) {
+  opacity: 0;
+}
+
+img[data-permanent-logo="true"] {
+  opacity: 1 !important;
+  transition: none !important;
+}
+
+input,
+textarea {
+  user-select: auto;
+  -webkit-user-select: auto;
+}
+
+/* Infinite Marquee / Auto Swipe Animations */
+@keyframes marquee-left {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes marquee-right {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-marquee-left {
+  display: flex;
+  width: max-content;
+  animation: marquee-left 35s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-right {
+  display: flex;
+  width: max-content;
+  animation: marquee-right 35s linear infinite;
+  will-change: transform;
+}
+
+/* Prevent Radix UI scroll lock from shifting fixed elements */
+body[data-scroll-locked] {
+  padding-right: 0 !important;
+  overflow: auto !important;
+  pointer-events: auto !important;
+}
+
+/* High-Visibility Skeleton Loader for Dark Mode */
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-box {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.07) 0%,
+    rgba(255, 255, 255, 0.16) 50%,
+    rgba(255, 255, 255, 0.07) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.8s ease-in-out infinite;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.skeleton-text {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.22) 50%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.8s ease-in-out infinite;
+  border-radius: 0.375rem;
+}
+
+/* Vidstack Volume & Mute Controls */
+.vds-volume {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.vds-volume-popup {
+  display: flex !important;
+  align-items: center !important;
+  overflow: hidden !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+/* Hide chapters menu button (3-bar icon) and accessibility options */
+.vds-chapters-menu,
+.vds-chapters-menu-button,
+button[aria-label="Chapters"],
+[data-part="chapters-menu"],
+[data-part="chapters-menu-button"],
+.vds-menu-item[data-value="accessibility"],
+button[data-value="accessibility"],
+[data-part="accessibility-menu-button"] {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Vidstack Time Slider Chapters Boundaries & Background Fix */
+.vds-time-slider,
+.vds-slider-chapters,
+.vds-slider-chapter {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+.vds-slider-chapter:not(:last-child) {
+  border-right: 2px solid rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Display Quality & Audio current values in Settings Menu */
+.vds-quality-menu .vds-menu-item:not([aria-expanded="true"]) .vds-menu-item-hint:empty::before,
+[data-part="quality-menu-button"]:not([aria-expanded="true"]) .vds-menu-item-hint:empty::before {
+  content: var(--vds-quality-hint, "Auto");
+  color: rgba(255, 255, 255, 0.6) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  font-family: inherit !important;
+  display: inline-block;
+}
+
+.vds-audio-menu .vds-menu-item:not([aria-expanded="true"]) .vds-menu-item-hint:empty::before,
+.vds-audio-track-menu .vds-menu-item:not([aria-expanded="true"]) .vds-menu-item-hint:empty::before,
+[data-part="audio-menu-button"]:not([aria-expanded="true"]) .vds-menu-item-hint:empty::before,
+[data-part="audio-track-menu-button"]:not([aria-expanded="true"])
+  .vds-menu-item-hint:empty::before {
+  content: var(--vds-audio-hint, "Default");
+  color: rgba(255, 255, 255, 0.6) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  font-family: inherit !important;
+  display: inline-block;
+}
+
+/* Remove/hide selected value / hint text in top header / back button across all submenu pages */
+.vds-menu-item[aria-expanded="true"] .vds-menu-item-hint,
+.vds-menu-item[aria-expanded="true"] .vds-menu-item-hint::before,
+.vds-menu-item[aria-expanded="true"] .vds-menu-item-hint::after,
+.vds-menu-items .vds-menu-item[aria-expanded="true"] .vds-menu-item-hint {
+  display: none !important;
+  content: "" !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Vidstack Settings & Submenu Overrides (Matched with Skip Intro design) */
+.vds-menu-items,
+.vds-menu-items[data-root] {
+  background-color: rgba(10, 10, 10, 0.88) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 14px !important;
+  padding: 6px !important;
+  box-shadow: 0 20px 40px -8px rgba(0, 0, 0, 0.8) !important;
+  font-family: inherit !important;
+  font-size: 13px !important;
+  color: #ffffff !important;
+}
+
+.vds-menu-item,
+.vds-radio {
+  font-family: inherit !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  padding: 8px 10px !important;
+  min-height: 38px !important;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.1s ease !important;
+}
+
+.vds-menu-item:hover,
+.vds-menu-item[data-focus],
+.vds-radio:hover,
+.vds-radio[data-focus] {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+}
+
+.vds-menu-item:active,
+.vds-radio:active {
+  transform: scale(0.98);
+}
+
+.vds-radio[aria-checked="true"] {
+  background-color: rgba(255, 255, 255, 0.16) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+.vds-menu-item[aria-expanded="true"] {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border-radius: 8px !important;
+  font-weight: 700 !important;
+  margin-bottom: 6px !important;
+}
+
+.vds-menu-section-body {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 10px !important;
+  padding: 2px !important;
+}
+
+.vds-menu-item-hint,
+.vds-radio-hint {
+  color: rgba(255, 255, 255, 0.6) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+}
+
+.vds-menu-item:hover .vds-menu-item-hint,
+.vds-radio:hover .vds-radio-hint {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Vidstack Brand Colors */
+media-player,
+.vds-video,
+.vds-player {
+  --media-brand: var(--brand);
+  --media-focus-ring-color: var(--brand);
+  --video-brand: var(--brand);
+}
+
+/* Ensure the Lucide icons inside Vidstack have the same size and proper alignment */
+.vds-icon {
+  width: 100%;
+  height: 100%;
+  max-width: 24px;
+  max-height: 24px;
+}
+
+/* Completely hide Audio menu option in Vidstack settings */
+.vds-audio-menu,
+.vds-audio-track-menu,
+[data-part="audio-menu-button"],
+[data-part="audio-track-menu-button"] {
+  display: none !important;
+}
