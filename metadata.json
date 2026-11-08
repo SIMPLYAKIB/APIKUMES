@@ -1,8 +1,0 @@
-{
-  "name": "Remix Apikume",
-  "description": "A production-ready Anime API designed for Vercel. Provides intelligent cross-tracker mapping resolution and episode fetching.",
-  "requestFramePermissions": [],
-  "majorCapabilities": [
-    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
-  ]
-}
